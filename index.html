@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f2ec">
+  <title>Four-Ball · Manage your round</title>
+  <link rel="icon" href="data:,">
+  <style>:root{color-scheme:light;--ink:#233b30;--muted:#647068;--green:#224c39;--line:#e3e7de;--paper:#fffefa}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px 20px;background:#f4f2ec;color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.invitation{width:100%;max-width:460px;padding:28px 32px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 8px 32px #203c2906}p,h1{margin:0}.invite-header{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);margin-bottom:18px}.avatar{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e1e7d8;color:var(--green);font:16px Georgia,serif}h1{font:34px/1.15 Georgia,serif;letter-spacing:-1.2px}.subtitle{color:var(--muted);margin-top:8px;font-size:13px;min-height:20px}
+.details{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:20px 0;padding:18px 0;display:grid;gap:14px}.detail{display:flex;align-items:flex-start;gap:14px}.detail svg{width:19px;height:19px;flex:none;fill:none;stroke:#748074;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}.detail div{display:grid;gap:1px}.detail strong{font-size:13px;font-weight:600}.detail span{font-size:12px;color:var(--muted)}
+.players{margin-bottom:22px}.players-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.players-heading h2{font-size:14px;font-weight:600;margin:0}.players-heading>span{font-size:11px;color:var(--muted)}.players ul{list-style:none;margin:0;padding:0}.players li{display:flex;align-items:center;gap:10px;min-height:56px;border-bottom:1px solid #eef0e9}.players li:last-child{border:0}.player-name{display:grid;gap:1px;flex:1;min-width:0}.player-name strong{font-size:13px;font-weight:500}.player-name small{font-size:11px;color:var(--muted)}.you{color:var(--muted);font-weight:400}.player-avatar{display:grid;place-items:center;width:32px;height:32px;flex:none;border-radius:50%;background:#e1e7d8;font:15px Georgia,serif}.friend-0{background:#e7dfcf}.friend-1{background:#dde5eb}.friend-2{background:#e7dee7}.player-status{font-size:10px;color:#42634c;white-space:nowrap}.player-status.pending{color:#886221;background:#f7f0df;padding:3px 7px;border-radius:4px}.player-status.available{color:var(--muted)}.player-avatar.open{background:transparent;border:1px dashed #a6b0a2;color:var(--muted);font:18px sans-serif}
+button{width:100%;min-height:48px;border:0;border-radius:8px;background:var(--green);color:white;cursor:pointer;font:600 14px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;display:flex;align-items:center;justify-content:center;padding:13px 16px}button:hover:not(:disabled){background:#173c2b}button:focus-visible{outline:3px solid #a57626;outline-offset:4px}button:disabled{cursor:default}button.confirmed{background:#e8eee1;color:var(--green)}.reassurance{text-align:center;font-size:11px;color:var(--muted);margin-top:10px;min-height:17px}
+@media(max-width:420px){body{padding:16px 12px}.invitation{padding:22px 20px;border-radius:16px}h1{font-size:30px}.player-name strong{font-size:12px}.player-status{font-size:9px}.players li{gap:8px}.subtitle{font-size:12px}}
+
+/* Application shell leaves room for future navigation. */
+body{display:block;padding:0}
+.app-header{background:var(--paper);border-bottom:1px solid var(--line)}
+.header-inner{max-width:1120px;min-height:72px;margin:0 auto;padding:18px 28px;display:flex;align-items:center}
+.wordmark{display:flex;align-items:center;gap:10px;color:var(--green);font-size:21px;font-weight:650;letter-spacing:-.7px}
+.wordmark svg{width:32px;height:32px;flex:none}
+.workspace{padding:32px 20px 20px;display:flex;flex-direction:column;align-items:center}
+.reset-link{font-size:12px;color:var(--muted);text-underline-offset:3px;padding:14px 12px;margin-top:4px;min-height:44px;display:inline-flex;align-items:center}
+.reset-link:hover{color:var(--green)}
+.reset-link:focus-visible{outline:3px solid #a57626;outline-offset:2px;border-radius:4px}
+@media(max-width:420px){.header-inner{min-height:64px;padding:16px 20px}.workspace{padding:20px 12px 12px}.wordmark{font-size:19px}}
+</style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="wordmark" aria-label="Four-Ball">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="currentColor"/><circle cx="11" cy="11" r="3" fill="#fffefa"/><circle cx="21" cy="11" r="3" fill="#fffefa"/><circle cx="11" cy="21" r="3" fill="#fffefa"/><circle cx="21" cy="21" r="3" fill="#a9bea1"/></svg>
+        <span>Four-Ball</span>
+      </div>
+    </div>
+  </header>
+  <div class="workspace">
+  <main class="invitation" aria-labelledby="title">
+    <h1 id="title">Manage your round</h1>
+    <p class="subtitle" id="subtitle">Your reservation is booked. Fill the other 3 spots.</p>
+    <section class="details" aria-label="Round details">
+      <div class="detail">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4m8-4v4M4 11h16"/></svg>
+        <div><strong>Saturday, September 19</strong><span>8:20 AM · Eastern time</span></div>
+      </div>
+      <div class="detail">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <div><strong>Bethpage State Park - Black Course</strong><span>18 holes</span></div>
+      </div>
+      <div class="detail">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18m-13 5h3"/></svg>
+        <div><strong>$82 per person</strong><span>You paid $328 for the group</span></div>
+      </div>
+    </section>
+    <section class="players" aria-labelledby="players-title">
+      <div class="players-heading"><h2 id="players-title">Your group</h2><span id="count">1 of 4 confirmed</span></div>
+      <ul id="player-list"></ul>
+    </section>
+    <button id="action" type="button">Invite 3 friends <span aria-hidden="true">→</span></button>
+    <p class="reassurance" id="reassurance" role="status" aria-live="polite">3 spots are waiting to be filled.</p>
+  </main>
+    <a href="#" id="reset" class="reset-link">Reset prototype</a>
+  </div>
+  <script>const button = document.querySelector('#action');
+const list = document.querySelector('#player-list');
+const friends = ['Tiger Woods', 'Rory McIlroy', 'Nelly Korda'];
+let state = 'open';
+
+function render() {
+  const open = state === 'open';
+  const full = state === 'full';
+  document.querySelector('main').dataset.state = state;
+  document.querySelector('#subtitle').textContent = open
+    ? 'Your reservation is booked. Fill the other 3 spots.'
+    : full ? 'Everyone’s in. See you on Saturday.' : 'Invitations sent. Waiting on 3 replies.';
+  document.querySelector('#count').textContent = full ? '4 of 4 confirmed' : '1 of 4 confirmed';
+  list.innerHTML = '<li><span class="player-avatar" aria-hidden="true">B</span><div class="player-name"><strong>Ben Pardee <span class="you">(you)</span></strong><small>Organizer</small></div><span class="player-status">✓ Confirmed</span></li>'
+    + friends.map((name, i) => `<li><span class="player-avatar ${open ? 'open' : 'friend-'+i}" aria-hidden="true">${open ? '+' : name[0]}</span><div class="player-name"><strong>${open ? 'Open spot' : name}</strong><small>${open ? 'Invite a friend' : full ? 'Payment pending' : 'Awaiting their reply'}</small></div><span class="player-status ${open ? 'available' : full ? '' : 'pending'}">${open ? 'Available' : full ? '✓ Confirmed' : '◷ Pending'}</span></li>`).join('');
+  button.textContent = open ? 'Invite 3 friends →' : full ? '✓ Group confirmed' : 'Nudge your friends';
+  button.classList.toggle('confirmed', full);
+  button.disabled = full;
+  document.querySelector('#reassurance').textContent = open
+    ? '3 spots are waiting to be filled.'
+    : full ? 'All 4 spots filled. Friends can pay you later.' : 'A spot is confirmed when a friend accepts.';
+}
+button.onclick = () => {
+  if (state === 'full') return;
+  state = state === 'open' ? 'pending' : 'full';
+  render();
+};
+render();
+
+document.querySelector('#reset').onclick = (event) => {
+  event.preventDefault();
+  state = 'open';
+  render();
+  button.focus();
+};
+</script>
+</body>
+</html>
