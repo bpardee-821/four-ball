@@ -52,7 +52,7 @@ The user clarified that fronting the money was a financial burden, not evidence 
 
 **Decision:** Start with group coordination attached to an existing reservation. Defer booking integrations, financing, public spot resale, automatic cancellation, and course-data products.
 
-**Output:** [Idea and validation scope](four-ball-idea.md), saved after the user requested a Markdown file. It records the proposed minimum viable product, assumptions, exclusions, and unanswered questions. One person’s stated interest supported a test; it did not establish market demand.
+**Output:** Idea and validation scope, saved after the user requested a Markdown file. It records the proposed minimum viable product, assumptions, exclusions, and unanswered questions. One person’s stated interest supported a test; it did not establish market demand.
 
 ### 5. Build one part of the journey
 
@@ -108,7 +108,7 @@ Other refinements removed the organizer label above the card, renamed “Check r
 
 The source folder and packages were renamed to Four-Ball. Superseded names and duplicate prototype files were removed. The retained HTML and ZIP were checked against the current source.
 
-**Outputs:** [Clickable prototype](four-ball-prototype.html), [source package](four-ball-poc.zip), and [implementation notes](four-ball-poc/README.md). The editable source lives in `four-ball-poc/`.
+**Outputs:** Clickable prototype, source package, and implementation notes. The editable source lives in `four-ball-poc/`.
 
 ## What the final prototype proves—and what it does not
 
