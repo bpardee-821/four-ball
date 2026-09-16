@@ -1,0 +1,50 @@
+const {JSDOM, VirtualConsole}=require('jsdom');
+const {readFileSync}=require('node:fs');
+const {join}=require('node:path');
+const assert=require('node:assert/strict');
+const errors=[];
+const consoleBridge=new VirtualConsole();
+consoleBridge.on('jsdomError',e=>errors.push(e.message));
+const html=readFileSync(join(__dirname,'invitation.html'),'utf8');
+const dom=new JSDOM(html,{url:'file:///invitation.html',runScripts:'dangerously',virtualConsole:consoleBridge});
+const doc=dom.window.document;
+try{
+ const button=doc.querySelector('#action');
+ assert.equal(doc.querySelectorAll('button').length,1);
+ assert.equal(doc.querySelectorAll('nav,footer,select').length,0);
+ assert.equal(doc.querySelector('h1').textContent,'Manage your round');
+ assert.equal(doc.querySelector('.wordmark span').textContent,'Four-Ball');
+ assert.equal(doc.querySelector('.invite-header'),null);
+ assert.equal(doc.querySelector('main').dataset.state,'open');
+ assert.equal(doc.querySelector('#player-list').children.length,4);
+ assert.equal(doc.querySelectorAll('.player-avatar.open').length,3);
+ assert.equal(doc.querySelector('#count').textContent,'1 of 4 confirmed');
+ button.click();
+ assert.equal(doc.querySelector('main').dataset.state,'pending');
+ assert.equal(doc.querySelectorAll('.player-status.pending').length,3);
+ assert.equal(button.textContent,'Nudge your friends');
+ assert.equal(doc.querySelector('#count').textContent,'1 of 4 confirmed');
+ for(const name of ['Tiger Woods','Rory McIlroy','Nelly Korda'])assert.ok(doc.querySelector('#player-list').textContent.includes(name));
+ button.click();
+ assert.equal(doc.querySelector('main').dataset.state,'full');
+ assert.equal(doc.querySelector('#count').textContent,'4 of 4 confirmed');
+ assert.equal(doc.querySelectorAll('.player-status.pending').length,0);
+ assert.equal([...doc.querySelectorAll('.player-status')].filter(p=>p.textContent.includes('Confirmed')).length,4);
+ assert.equal([...doc.querySelectorAll('.player-name small')].filter(p=>p.textContent==='Payment pending').length,3);
+ assert.equal(button.disabled,true);
+ button.click();assert.equal(doc.querySelector('main').dataset.state,'full');
+ assert.equal(doc.querySelector('#player-list').children.length,4);
+ const reset=doc.querySelector('#reset');
+ for(const target of ['full','pending']){
+   reset.click();
+   assert.equal(doc.querySelector('main').dataset.state,'open');
+   assert.equal(doc.querySelector('#count').textContent,'1 of 4 confirmed');
+   assert.equal(doc.querySelectorAll('.player-avatar.open').length,3);
+   assert.equal(button.disabled,false);
+   assert.equal(button.classList.contains('confirmed'),false);
+   assert.equal(doc.activeElement,button);
+   if(target==='full') button.click();
+ }
+ assert.deepEqual(errors,[]);
+ console.log('PASS: open → pending → full; four fixed spots; pending does not count as confirmed; dummy names; payment stays pending; one action; branding/copy; reset from pending and full.');
+}finally{dom.window.close();}
