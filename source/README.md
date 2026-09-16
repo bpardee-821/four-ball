@@ -1,11 +1,5 @@
 # Four-Ball — organizer reservation prototype
 
-## Open and share
-
-Double-click `invitation.html`. It is a self-contained file with no dependencies. Share it with the team. Use the small **Reset prototype** link below the card to restart from any state.
-
-The existing local server also serves the screen at http://127.0.0.1:8766/.
-
 ## The slice
 
 The organizer has just booked and paid for a reservation for four players. One screen shows the reservation progressing through three states:
